@@ -4,7 +4,11 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBlogRequest extends FormRequest
+
+
+
+// 업데이트용 fore request
+class UpdateBlogRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +30,7 @@ class StoreBlogRequest extends FormRequest
         return [
             'title' => ['required', 'max:255'],
             'image' => [
-                'required', //이미지 파일이 필수 입력되어있다
+                'nullable', // 이미지 파일이 필수입력 아니게 만듦
                 'file', // ファイルがアップロードされている
                 'image', // 画像ファイルである
                 'max:2000', // ファイル容量が2000kb以下である

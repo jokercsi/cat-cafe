@@ -46,12 +46,12 @@ class AdminBlogController extends Controller
     }
 
     // 지정한 ID의 블로그 편집화면
-    public function edit($id)
+    public function edit(Blog $blog)
     {
         // 페이지 찾는 메소드 = find
         // $blog = Blog::find($id);
         // 페이지 찾았는데 데이터 베이스에 없으면 없다고 404 에러 띄게 만들기
-        $blog = Blog::findOrFail($id);
+        // $blog = Blog::findOrFail($id);
         return view('admin.blogs.edit', ['blog' => $blog]);
     }
 

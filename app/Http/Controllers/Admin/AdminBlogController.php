@@ -69,17 +69,18 @@ class AdminBlogController extends Controller
         }
         $blog->update($updateData);
 
+        // 완료되면 블로그 리스트 화면으로 이동
         return to_route('admin.blogs.index')->with('success', '블로그 업데이트 완료');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // 지정한 ID의 블로그 삭제 처리
     public function destroy($id)
     {
-        //
+        $blog = Blog::findOrFail($id);
+        $blog -> delete();
+        Storage::disk('public')->delete($blog->image);
+        
+        // 완료되면 블로그 리스트 화면으로 이동
+        return to_route('admin.blogs.index')->with('success', '블로그 지우기 완료');
     }
 }

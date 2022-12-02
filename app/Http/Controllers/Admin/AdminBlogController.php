@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreBlogRequest;
 use App\Http\Requests\Admin\UpdateBlogRequest;
 use Illuminate\Http\Request;
 use App\Models\Blog;
+use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 
 class AdminBlogController extends Controller
@@ -52,7 +53,8 @@ class AdminBlogController extends Controller
         // $blog = Blog::find($id);
         // 페이지 찾았는데 데이터 베이스에 없으면 없다고 404 에러 띄게 만들기
         // $blog = Blog::findOrFail($id);
-        return view('admin.blogs.edit', ['blog' => $blog]);
+        $categories = Category::all();
+        return view('admin.blogs.edit', ['blog' => $blog, 'categories' => $categories]);
     }
 
     // 지정한 ID의 블로그 업데이트 처리
@@ -67,6 +69,7 @@ class AdminBlogController extends Controller
             // 변경후의 이미지 업데이트, 저장path를 업데이트대상 데이터에 세트
             $updateData['image'] = $request->file('image')->store('blogs', 'public');
         }
+        $blog->category()->associate($updateData['category_id']);
         $blog->update($updateData);
 
         // 완료되면 블로그 리스트 화면으로 이동

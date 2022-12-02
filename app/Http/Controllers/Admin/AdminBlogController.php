@@ -3,41 +3,35 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreBlogRequest;
 use Illuminate\Http\Request;
+use App\Models\Blog;
 
 class AdminBlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // 블로그 내용 화면
     public function index()
     {
-        return view('admin.blogs.index');
+        $blogs = Blog::all();
+        return view('admin.blogs.index', ['blogs' => $blogs]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // 블로그 등록 화면
     public function create()
     {
         return view('admin.blogs.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    // 블로그 등록 처리
+    public function store(StoreBlogRequest $request)
     {
-        //
-    }
+        $savedImagePath = $request->file('image')->store('blogs', 'public');
+        $blog = new Blog($request->validated());
+        $blog->image = $savedImagePath;
+        $blog->save();
 
+        return to_route('admin.blogs.index')->with('success', '블로그 등록 했습니다.');
+    }
     /**
      * Display the specified resource.
      *

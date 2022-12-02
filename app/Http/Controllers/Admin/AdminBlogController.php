@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\UpdateBlogRequest;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Category;
+use App\Models\Cat;
 use Illuminate\Support\Facades\Storage;
 
 class AdminBlogController extends Controller
@@ -54,7 +55,8 @@ class AdminBlogController extends Controller
         // 페이지 찾았는데 데이터 베이스에 없으면 없다고 404 에러 띄게 만들기
         // $blog = Blog::findOrFail($id);
         $categories = Category::all();
-        return view('admin.blogs.edit', ['blog' => $blog, 'categories' => $categories]);
+        $cats = Cat::all();
+        return view('admin.blogs.edit', ['blog' => $blog, 'categories' => $categories, 'cats'=>$cats]);
     }
 
     // 지정한 ID의 블로그 업데이트 처리
@@ -70,6 +72,7 @@ class AdminBlogController extends Controller
             $updateData['image'] = $request->file('image')->store('blogs', 'public');
         }
         $blog->category()->associate($updateData['category_id']);
+        $blog->cats()->sync($updateData['cats']);
         $blog->update($updateData);
 
         // 완료되면 블로그 리스트 화면으로 이동

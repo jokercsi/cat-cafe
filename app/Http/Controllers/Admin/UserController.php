@@ -34,7 +34,7 @@ class UserController extends Controller
         $validated['password'] = Hash::make($validated['password']);
         User::create($validated);
 
-        return back()->with('success', '유저를 등록했습니다')
+        return back()->with('success', '유저를 등록했습니다');
     }
 
     /**

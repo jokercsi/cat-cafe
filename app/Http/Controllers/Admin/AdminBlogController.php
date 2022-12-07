@@ -10,6 +10,7 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Cat;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminBlogController extends Controller
 {
@@ -17,7 +18,8 @@ class AdminBlogController extends Controller
     public function index()
     {
         $blogs = Blog::latest('updated_at')->paginate(10);
-        return view('admin.blogs.index', ['blogs' => $blogs]);
+        $user = Auth::user();
+        return view('admin.blogs.index', ['blogs' => $blogs, 'user' => $user]);
     }
 
     // 블로그 등록 화면

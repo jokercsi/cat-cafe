@@ -20,13 +20,4 @@ class Blog extends Model
     {
         return $this->belongsToMany(Cat::class);
     }
-
-    public function scopePopular($query)
-    {
-        return $query->where('id', '<', '10');
-    }
-
-    // public function search(){
-    //     return 
-    // }
 }

@@ -20,8 +20,8 @@
         <div class="ml-6">
             <form method="GET" action="{{ route('admin.blogs.index') }}">
                 <div>
-                    <button type="submit" name="filter" class="btn active" value="0"> 최신순 </button>
-                    <button type="submit" name="filter" class="btn" value="1"> 오래된순 </button>
+                    <button type="submit" name="filter" class="btn active" value="0"> 최신순 latest </button>
+                    <button type="submit" name="filter" class="btn" value="1"> 오래된순 oldest </button>
                 </div>
             </form>
         </div>

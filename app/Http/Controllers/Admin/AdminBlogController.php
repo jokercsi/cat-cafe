@@ -19,9 +19,10 @@ class AdminBlogController extends Controller
     {
         $blogs = Blog::latest('updated_at')->paginate(10);
         
-        // 検索フォームで入力された値を取得する
-        $search = $request->input('search');
         
+        $search = $request->input('search');    // 検索フォームで入力された値を取得する
+        $filter = $request->input('filter');    
+
         // クエリビルダ
         $query = Blog::query();
         
@@ -38,6 +39,18 @@ class AdminBlogController extends Controller
             // 単語をループで回し、ユーザーネームと部分一致するものがあれば、$queryとして保持される
             foreach($wordArraySearched as $value) {
                 $query->where('title', 'like', '%'.$value.'%');
+            }
+
+            // 上記で取得した$queryをページネートにし、変数$usersに代入
+            $blogs = $query->paginate(10);
+
+        }
+        if ($filter) {
+
+            if ($filter = "0"){
+                $query->latest();
+            } elseif ($filter = "1") {
+                $query->oldest();
             }
 
             // 上記で取得した$queryをページネートにし、変数$usersに代入

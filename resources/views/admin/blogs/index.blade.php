@@ -2,9 +2,9 @@
 
 @section('content')
 <section>
-    <div class="mb-6 py-4 bg-white rounded">
+    <div class="mb-6 py-4 bg-white rounded d-flex justify-content-around">
         <!-- ▼▼▼▼ Search ▼▼▼▼ -->
-        <div>
+        <div class="float-left mr-6">
             <form method="GET" action="{{ route('admin.blogs.index') }}">
                 <input type="search" placeholder="ユーザー名を入力" name="search" value="@if (isset($search)) {{ $search }} @endif">
                 <button type="submit">検索</button>
@@ -17,7 +17,13 @@
         </div>
         <!-- ▲▲▲▲ Search ▲▲▲▲ -->
         <!-- ▼▼▼▼ Filter ▼▼▼▼ -->
-        <div>
+        <div class="ml-6">
+            <form method="GET" action="{{ route('admin.blogs.index') }}">
+                <div>
+                    <button type="submit" name="filter" class="btn active" value="0"> 최신순 </button>
+                    <button type="submit" name="filter" class="btn" value="1"> 오래된순 </button>
+                </div>
+            </form>
         </div>
         <!-- ▲▲▲▲ Filter ▲▲▲▲ -->
     </div>

@@ -19,10 +19,9 @@ class UserTest extends TestCase
     {
         $response = $this->get('/admin/login');
         $response->assertStatus(200);
-        
+
         $response1 = $this->get('/');
         $response1->assertStatus(200);
-
     }
 }
 

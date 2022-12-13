@@ -17,11 +17,17 @@ class UserTest extends TestCase
      */
     public function test_example()
     {
+        $response1 = $this->get('/');
+        $response1->assertStatus(200);
+
+
         $response = $this->get('/admin/login');
         $response->assertStatus(200);
 
-        $response1 = $this->get('/');
-        $response1->assertStatus(200);
+
+        # redirect to login page (if not loged in)
+        $response1 = $this->get('/admin/blogs');
+        $response1->assertStatus(302);
     }
 }
 

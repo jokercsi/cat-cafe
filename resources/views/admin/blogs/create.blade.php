@@ -26,12 +26,14 @@
                     @endif
                     <!-- ▲▲▲▲エラーメッセージ▲▲▲▲　-->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium mb-2" for="title">タイトル</label>
+                        <label class="block text-sm font-medium mb-2" for="title">タイトル Title</label>
+                        <label class="block text-sm font-small mb-2" for="image">Validation = (required, max-length : 255)</label>
                         <input id="title" class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded" type="text" name="title" value="{{ old('title') }}">
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium mb-2" for="image">画像</label>
+                        <label class="block text-sm font-medium mb-2" for="image">画像 Image</label>
+                        <label class="block text-sm font-small mb-2" for="image">Validation = (image file required, max-size :2000kb, [jpeg,jpg,png],  resloution : 300*300 & 1200*1200)</label>
                         <div class="flex items-end">
                             <img id="previewImage" src="/images/admin/noimage.jpg" data-noimage="/images/admin/noimage.jpg" alt="" class="rounded shadow-md w-64">
                             <input id="image" class="block w-full px-4 py-3 mb-2" type="file" accept='image/*' name="image">
@@ -39,7 +41,8 @@
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium mb-2" for="body">本文</label>
+                        <label class="block text-sm font-medium mb-2" for="body">本文 Description</label>
+                        <label class="block text-sm font-small mb-2" for="image">Validation = (required, max-length : 20000)</label>
                         <textarea id="body" class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded" name="body" rows="5">{{ old('body') }}</textarea>
                     </div>
 

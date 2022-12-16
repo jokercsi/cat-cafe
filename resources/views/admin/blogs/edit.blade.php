@@ -8,7 +8,7 @@
                 @csrf
                 @method('PUT')
                 <div class="flex px-6 pb-4 border-b">
-                    <h3 class="text-xl font-bold">ブログ登録</h3>
+                    <h3 class="text-xl font-bold">ブログ登録 Blog Update</h3>
                     <div class="ml-auto">
                         <button type="submit" class="py-2 px-3 text-xs text-white font-semibold bg-indigo-500 rounded-md">UPDATE</button>
                     </div>
@@ -27,12 +27,13 @@
                     @endif
                     <!-- ▲▲▲▲エラーメッセージ▲▲▲▲　-->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium mb-2" for="title">タイトル</label>
+                        <label class="block text-sm font-medium mb-2" for="title">タイトル Title</label>
                         <input id="title" class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded" type="text" name="title" value="{{ old('title', $blog->title) }}">
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium mb-2" for="image">画像</label>
+                        <label class="block text-sm font-medium mb-2" for="image">画像 Image</label>
+                        <label class="block text-sm font-small mb-2" for="image">Validation = (nullable, max-size :2000kb, [jpeg,jpg,png],  resloution : 300*300 & 1200*1200)</label>
                         <div class="flex items-end">
                             <img id="previewImage" src=" {{ asset('storage/'. $blog->image) }})" alt="" class="rounded shadow-md w-64">
                             <input id="image" class="block w-full px-4 py-3 mb-2" type="file" accept='image/*' name="image">
@@ -40,18 +41,20 @@
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium mb-2" for="body">本文</label>
+                        <label class="block text-sm font-medium mb-2" for="body">本文 Description</label>
                         <textarea id="body" class="block w-full px-4 py-3 mb-2 text-sm bg-white border rounded" name="body" rows="5">{{ old('body', $blog->body) }}</textarea>
                     </div>
 
                     <div class="mb-6">
                         <label class="block text-sm font-medium mb-2" for="category">カテゴリ</label>
                         <div class="flex">
+                            <!-- ▼▼▼▼ Category 내용에 관한 부분 ▼▼▼▼　-->
                             <select id="category" class="appearance-none block pl-4 pr-8 py-3 mb-2 text-sm bg-white border rounded" name="category_id">
                                 @foreach($categories as $category)
                                 <option value="{{ $category->id }}" @if($category->id == old('category_id', $blog->category->id)) selected @endif>{{ $category->name }}</option>
                                 @endforeach
                             </select>
+                            <!-- ▲▲▲▲ Category 내용에 관한 부분 ▲▲▲▲　-->
                             <div class="pointer-events-none transform -translate-x-full flex items-center px-2 text-gray-500">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20">
                                     <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>

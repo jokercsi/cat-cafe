@@ -14,15 +14,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminBlogController extends Controller
 {
-    // 블로그 내용 화면
+    // 블로그 리스트 보여주는 화면
     public function index(Request $request)
     {
-        $blogs = Blog::latest('updated_at')->paginate(10);
-        
-        
         $search = $request->input('search');    // 検索フォームで入力された値を取得する
-        $filter = $request->input('filter');    
+        $filter = $request->input('filter');    // filter form의 입력값을 획득
 
+        $blogs = Blog::latest('updated_at')->paginate(10);
         // クエリビルダ
         $query = Blog::query();
         
@@ -35,7 +33,6 @@ class AdminBlogController extends Controller
             // 単語を半角スペースで区切り、配列にする（例："山田 翔" → ["山田", "翔"]）
             $wordArraySearched = preg_split('/[\s,]+/', $spaceConversion, -1, PREG_SPLIT_NO_EMPTY);
 
-
             // 単語をループで回し、ユーザーネームと部分一致するものがあれば、$queryとして保持される
             foreach($wordArraySearched as $value) {
                 $query->where('title', 'like', '%'.$value.'%');
@@ -45,19 +42,19 @@ class AdminBlogController extends Controller
             $blogs = $query->paginate(10);
 
         }
-        if ($filter) {
+        elseif ($filter) {
 
             if ($filter = "0"){
-                $query->latest();
+                $blogs = $query->latest('updated_at')->paginate(10);
             } elseif ($filter = "1") {
-                $query->oldest();
+                $blogs = $query->oldest('updated_at')->paginate(10);
             }
 
             // 上記で取得した$queryをページネートにし、変数$usersに代入
-            $blogs = $query->paginate(10);
+            #$blogs = $query->paginate(10);
 
         }
-        
+
         $user = Auth::user();
         return view('admin.blogs.index', ['blogs' => $blogs, 'user' => $user]);
     }

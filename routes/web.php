@@ -27,7 +27,7 @@ Route::post('/contact', [ContactController::class, 'sendMail']);
 Route::get('/contact/complete', [ContactController::class, 'complete'])->name('contact.complete');
 
 
-// route 관리 (middleware)
+// Blog 페이지 : route 관리 (middleware)
 Route::prefix('/admin')
     ->name('admin.')
     ->middleware('auth')

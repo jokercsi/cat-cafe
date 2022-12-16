@@ -4,24 +4,27 @@
 <section>
     <div class="mb-6 py-4 bg-white rounded d-flex justify-content-around">
         <!-- ▼▼▼▼ Search ▼▼▼▼ -->
-        <div class="float-left mr-6">
+        <div class="float-left pl-5 pr-5">
+            <h2 class="text-xl font-bold">Search</h2>
             <form method="GET" action="{{ route('admin.blogs.index') }}">
-                <input type="search" placeholder="ユーザー名を入力" name="search" value="@if (isset($search)) {{ $search }} @endif">
-                <button type="submit">検索</button>
-                <button>
+                <input class="border" type="search" placeholder="input" name="search" value="@if (isset($search)) {{ $search }} @endif">
+                <button class="border px-2" type="submit">Search</button>
+                <button class="border px-2">
                     <a href="{{ route('admin.blogs.index') }}">
-                        クリア
+                        Clear
                     </a>
                 </button>
             </form>
         </div>
         <!-- ▲▲▲▲ Search ▲▲▲▲ -->
+
         <!-- ▼▼▼▼ Filter ▼▼▼▼ -->
         <div class="ml-6">
+            <h2 class="text-xl font-bold">Filter</h2>
             <form method="GET" action="{{ route('admin.blogs.index') }}">
                 <div>
-                    <button type="submit" name="filter" class="btn active" value="0"> 최신순 latest </button>
-                    <button type="submit" name="filter" class="btn" value="1"> 오래된순 oldest </button>
+                    <button type="submit" name="filter" class="border mr-4 px-2 btn active" value="0"> latest </button>
+                    <button type="submit" name="filter" class="border px-2 btn" value="1"> oldest </button>
                 </div>
             </form>
         </div>
@@ -80,8 +83,8 @@
         </div>
     </div>
 
-        <!-- ▼▼▼▼ページャー▼▼▼▼　-->
+        <!-- ▼▼▼▼ paginate ▼▼▼▼　-->
         {{ $blogs->appends($data)->links() }}
-        <!-- ▲▲▲▲ページャー▲▲▲▲　-->
+        <!-- ▲▲▲▲ paginate ▲▲▲▲　-->
 </section>
 @endsection

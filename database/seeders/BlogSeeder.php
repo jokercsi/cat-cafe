@@ -24,7 +24,7 @@ class BlogSeeder extends Seeder
                 $created_at = today()->subMinutes($num+$no+1)->setHours(random_int(9, 18))->setMinutes(random_int(0, 59));
                 $updated_at = random_int(0, 1) === 1 ? today()->subMinutes(random_int(1, $num+$no))->setHours(random_int(9, 18))->setMinutes(random_int(0, 59)) : $created_at;
                 return [
-                    'title' => 'ダミー記事'. $no,
+                    'title' => 'DummyPost'. $no,
                     'image' => 'blogs/dummy.jpg',
                     'body' => "ブログ記事のダミー本文です。\nここで改行されています\n\nここには空行が設定されています\n<p>ここはpタグで囲われています</p><script>alert('アラートが実行されたらXSS対策不備')</script>",
                     'created_at' => $created_at,

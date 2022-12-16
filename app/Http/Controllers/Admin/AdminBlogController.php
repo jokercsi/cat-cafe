@@ -103,15 +103,17 @@ class AdminBlogController extends Controller
     // 지정한 ID의 블로그 업데이트 처리
     public function update(UpdateBlogRequest $request, $id)
     {
-        $blog = Blog::findOrFail($id);
+        $blog = Blog::findOrFail($id);  // 데이터 베이스에서 지정한 ID 가져오기
         $updateData = $request->validated();
 
+        //  이미지를 변경할 경우
         if ($request->has('image')){
             // 변경전 이미지 삭제
             Storage::disk('public')->delete($blog->image);
             // 변경후의 이미지 업데이트, 저장path를 업데이트대상 데이터에 세트
             $updateData['image'] = $request->file('image')->store('blogs', 'public');
         }
+
         $blog->category()->associate($updateData['category_id']);
         $blog->cats()->sync($updateData['cats']);
         $blog->update($updateData);
@@ -123,9 +125,11 @@ class AdminBlogController extends Controller
     // 지정한 ID의 블로그 삭제 처리
     public function destroy($id)
     {
-        $blog = Blog::findOrFail($id);
-        $blog -> delete();
-        Storage::disk('public')->delete($blog->image);
+        $blog = Blog::findOrFail($id); 
+        $blog -> delete();  # delete 메소드 불러오기
+        Storage::disk('public')->delete($blog->image); # 필요없어진 사진도 지우기
+        
+
         
         // 완료되면 블로그 리스트 화면으로 이동
         return to_route('admin.blogs.index')->with('success', '블로그 지우기 완료');

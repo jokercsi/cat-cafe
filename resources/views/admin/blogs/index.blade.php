@@ -81,7 +81,7 @@
     </div>
 
         <!-- ▼▼▼▼ページャー▼▼▼▼　-->
-        {{ $blogs->onEachSide(2)->links() }}
+        {{ $blogs->appends($data)->links() }}
         <!-- ▲▲▲▲ページャー▲▲▲▲　-->
 </section>
 @endsection

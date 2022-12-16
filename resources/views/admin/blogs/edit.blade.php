@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium mb-2" for="category">カテゴリ</label>
+                        <label class="block text-sm font-medium mb-2" for="category">カテゴリ Category</label>
                         <div class="flex">
                             <!-- ▼▼▼▼ Category 내용에 관한 부분 ▼▼▼▼　-->
                             <select id="category" class="appearance-none block pl-4 pr-8 py-3 mb-2 text-sm bg-white border rounded" name="category_id">
@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="mb-6">
-                        <label class="block text-sm font-medium mb-2">登場するねこ</label>
+                        <label class="block text-sm font-medium mb-2">登場するねこ The name of Cat</label>
                         <select id="js-pulldown" class="mr-6 w-full" name="cats[]" multiple>
                             <option value="">choose one</option>
                             @foreach($cats as $cat)

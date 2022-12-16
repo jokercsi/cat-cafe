@@ -19,10 +19,9 @@ class AdminBlogController extends Controller
     {
         $search = $request->input('search');    // 検索フォームで入力された値を取得する
         $filter = $request->input('filter');    // filter form의 입력값을 획득
-
-        $blogs = Blog::latest('updated_at')->paginate(10);
-        // クエリビルダ
-        $query = Blog::query();
+        $query = Blog::query();  // query builder 쿼리 빌더
+        $data = $request->all(); // paginate의 다음 버튼을 눌러도 작동하게하는 코드 (To hold all request as the filter and pass this data to view) 
+       
         
        // もし検索フォームにキーワードが入力されたら
        if ($search) {
@@ -42,27 +41,30 @@ class AdminBlogController extends Controller
             $blogs = $query->paginate(10);
 
         }
-        elseif ($filter) {
+
+        // filter 값이 있을 경우
+        if ($filter) {
 
             if ($filter = "0"){
-                $blogs = $query->latest('updated_at')->paginate(10);
+                $blogs = Blog::latest('updated_at')->paginate(10);
             } elseif ($filter = "1") {
-                $blogs = $query->oldest('updated_at')->paginate(10);
+                $blogs = Blog::oldest('updated_at')->paginate(10);
             }
-
-            // 上記で取得した$queryをページネートにし、変数$usersに代入
-            #$blogs = $query->paginate(10);
-
+        }   // filter 값이 없을 경우
+        else{
+            $blogs = Blog::latest('updated_at')->paginate(10);
         }
 
         $user = Auth::user();
-        return view('admin.blogs.index', ['blogs' => $blogs, 'user' => $user]);
+        return view('admin.blogs.index', ['blogs' => $blogs, 'user' => $user, 'data' => $data]);
     }
 
     // 블로그 등록 화면
     public function create()
     {
-        return view('admin.blogs.create');
+        $categories = Category::all(); // 카테고리 보여주는 코드
+        $cats = Cat::all();
+        return view('admin.blogs.create', ['categories' => $categories, 'cats'=>$cats]);
     }
 
     // 블로그 등록 처리
@@ -93,7 +95,7 @@ class AdminBlogController extends Controller
         // $blog = Blog::find($id);
         // 페이지 찾았는데 데이터 베이스에 없으면 없다고 404 에러 띄게 만들기
         // $blog = Blog::findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::all(); // 카테고리 보여주는 코드
         $cats = Cat::all();
         return view('admin.blogs.edit', ['blog' => $blog, 'categories' => $categories, 'cats'=>$cats]);
     }

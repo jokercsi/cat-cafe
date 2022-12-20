@@ -40,6 +40,8 @@ class AdminBlogController extends Controller
             // 上記で取得した$queryをページネートにし、変数$usersに代入
             $blogs = $query->paginate(10);
 
+            $user = Auth::user();
+            return  view('admin.blogs.index', ['blogs' => $blogs, 'user' => $user, 'data' => $data]);
         }
 
         // filter 값이 있을 경우

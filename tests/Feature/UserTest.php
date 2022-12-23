@@ -3,14 +3,24 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
-use App\Models\Blog;
+
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use App\Providers\RouteServiceProvider;
+
+use Symfony\Component\HttpFoundation\Response;
+use App\Models\User;
 
 
 class UserTest extends TestCase
 {
+   // use RefreshDatabase, WithFaker; ->
+
+    // private const URL = '/api/users/sign-up';
+
     public function test_example()
     {
         $response0 = $this->get('/');
@@ -28,9 +38,37 @@ class UserTest extends TestCase
         $response3 ->assertStatus(302);  
     }
 
-    public function test_interacting_with_the_session()
+    // 로그인 확인
+    public function test_user_login()
     {
-        $response = $this->withSession(['banned' => false])->get('/');
+
+        $response = $this->post('/admin/login', [
+            'email' => 'kim@gmail.com',
+            'password' => 'Jokerjoker1',
+        ]);
+        $response->assertStatus(302); 
+    }
+
+
+    // login 하지 않으면 볼수 없는 페이지
+    public function test_an_action_that_requires_authentication()
+    {
+        $user = User::factory()->create();
+
+        $width = 200;
+        $height = 200;
+
+        $response = $this->actingAs($user)->withSession(['banned' => false])->get('/');
+
+        // $response = $this->post('/admin/users/create', [
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        //     'image' => UploadedFile::fake()->image('avatar.jpg', $width, $height)->size(100),
+        //     'password' => 'password1111',
+        //     'password_confirmation' => 'password1111',
+        //     'introduction' => 'password1111',
+        // ]);
+        // $response->assertStatus(200); 
     }
 
 }

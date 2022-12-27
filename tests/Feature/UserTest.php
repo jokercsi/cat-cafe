@@ -21,7 +21,7 @@ class UserTest extends TestCase
 
     // private const URL = '/api/users/sign-up';
 
-    public function controller_basic_test()
+    public function test_controller_basic_test()
     {
         $response = $this->get('/');
         $response->assertStatus(200);
@@ -46,14 +46,17 @@ class UserTest extends TestCase
     }
 
     // model 확인 
-    public function model_basic_test()
+    public function test_model_basic_test()
     {
         $data = [
             'id' => 1,
             'name' => 'kim',
             'email' => 'kim@gmail.com'
         ];
-        $this->assertDatabaseHas('users', $data);
+        $missingData = [
+            'id' => 999,
+        ];
+        $this->assertDatabaseMissing('users', $missingData);
     }
 
     // 로그인 확인
@@ -67,27 +70,65 @@ class UserTest extends TestCase
         $response->assertStatus(302); 
     }
 
+    // model 활용하기 
+    public function test_utilize_model_test()
+    {
+        $data = [
+            'name' => 'jibin',
+            'image' => 'users/vDzImZz0hZyqggHKbfZAJ7ln5cNnRnFZwivbIfqK.png',
+            'email' => 'jibin@gmail.com',
+            'introduction' => 'hi',
+            'password' => '44444444'
+        ];
+        
+        // create model (data 만들고 database에 들어간지 확인하기)
+        $user = new User();
+        $user -> fill($data)->save();
+        $this -> assertDatabaseHas('users', $data);
 
-    // // login 하지 않으면 볼수 없는 페이지
-    // public function test_an_action_that_requires_authentication()
-    // {
-    //     for($i =0; $i < 100; $i++){
-    //         $user = User::factory()->create();
-    //     }
+        // update model (data의 이름을 NOT-DUMMY으로 바꿈)
+        $user -> name = 'NOT-DUMMY';
+        $user -> save();
+        $this -> assertDatabaseMissing('users', $data);
+        $data['name'] = 'NOT-DUMMY';
+        $this->assertDatabaseHas('users', $data);
 
-    //     $width = 200;
-    //     $height = 200;
+        // delete model (만든 데이터 지우기)
+        $user -> delete();
+        $this -> assertDatabaseMissing('users', $data);
+    }
 
-    //     $response = $this->actingAs($user)->withSession(['banned' => false])->get('/');
 
-    //     // $response = $this->post('/admin/users/create', [
-    //     //     'name' => 'Test User',
-    //     //     'email' => 'test@example.com',
-    //     //     'image' => UploadedFile::fake()->image('avatar.jpg', $width, $height)->size(100),
-    //     //     'password' => 'password1111',
-    //     //     'password_confirmation' => 'password1111',
-    //     //     'introduction' => 'password1111',
-    //     // ]);
-    //     $response->assertStatus(200); 
-    // }
+    // factory 활용하기
+    public function test_factory_test()
+    {
+        $user = User::factory()->make();
+        $user = User::factory()->create();
+
+        // for($i =0; $i < 100; $i++){
+        //     User::factory()->create();
+        // }
+
+        // $count = User::get()->count();
+        // $user = User::find(rand(1, $count));
+        // $data = $user->toArray();
+        // print_r($data);
+
+        // $this->assertDatabaseHas('users', $data);
+
+        // $width = 200;
+        // $height = 200;
+
+        // $response = $this->actingAs($user)->withSession(['banned' => false])->get('/');
+
+        // // $response = $this->post('/admin/users/create', [
+        // //     'name' => 'Test User',
+        // //     'email' => 'test@example.com',
+        // //     'image' => UploadedFile::fake()->image('avatar.jpg', $width, $height)->size(100),
+        // //     'password' => 'password1111',
+        // //     'password_confirmation' => 'password1111',
+        // //     'introduction' => 'password1111',
+        // // ]);
+        // $response->assertStatus(200); 
+    }
 }

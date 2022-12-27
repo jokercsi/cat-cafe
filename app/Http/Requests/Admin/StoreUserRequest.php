@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'image' => [
-                'required',
+                'nullable',
                 'file', // ファイルがアップロードされている
                 'image', // 画像ファイルである
                 'max:2000', // ファイル容量が2000kb以下である

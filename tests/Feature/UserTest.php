@@ -102,19 +102,24 @@ class UserTest extends TestCase
     // factory 활용하기
     public function test_factory_test()
     {
-        $user = User::factory()->make();
-        $user = User::factory()->create();
+        // $user = User::factory()->make();
+        // $user = User::factory()->create();
 
-        // for($i =0; $i < 100; $i++){
-        //     User::factory()->create();
-        // }
+        for($i =0; $i < 10; $i++){
+            User::factory()->create();
+        }
 
-        // $count = User::get()->count();
+        $count = User::get()->count();  // 데이터 총합 구하기
+        
+        $user = User::find(1);  // find()는 id 값으로 찾는다. 
         // $user = User::find(rand(1, $count));
-        // $data = $user->toArray();
-        // print_r($data);
+        $data = $user->toArray();
+        print_r($data);
 
-        // $this->assertDatabaseHas('users', $data);
+        $this->assertDatabaseHas('users', $data);
+
+        // $user->delete();
+        // $this->assertDatabaseMissing('users', $data);
 
         // $width = 200;
         // $height = 200;
